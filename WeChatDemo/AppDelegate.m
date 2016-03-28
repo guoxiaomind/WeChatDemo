@@ -2,11 +2,15 @@
 //  AppDelegate.m
 //  WeChatDemo
 //
-//  Created by David Guo on 16/3/2.
+//  Created by David Guo on 16/2/29.
 //  Copyright © 2016年 David. All rights reserved.
 //
 
 #import "AppDelegate.h"
+#import "XMWeChatViewController.h"
+#import "XMConnectViewController.h"
+#import "XMMeViewController.h"
+#import "XMFindViewController.h"
 
 @interface AppDelegate ()
 
@@ -16,7 +20,23 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+
+    UITabBarController           * WeChatTabBarViewController = [[UITabBarController alloc]init];
+    XMConnectViewController      * connectViewController      = [[XMConnectViewController alloc]init];
+    XMWeChatViewController       * weChatViewController       = [[XMWeChatViewController alloc]init];
+    XMMeViewController           * meViewController           = [[XMMeViewController alloc]init];
+    XMFindViewController         * findViewController         = [[XMFindViewController alloc]init];
+    
+    WeChatTabBarViewController.viewControllers = @[weChatViewController,connectViewController,findViewController,meViewController];
+    //默认情况下UITabBarController在加载子视图时是懒加载的，只显示第一个XMWeChatController，下面方法遍历一遍controller，就可以都显示了.
+    for (UIViewController *controller in WeChatTabBarViewController.viewControllers) {
+        UIView *view = controller.view;
+    }
+    
+    self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.backgroundColor = [UIColor whiteColor];
+    self.window.rootViewController = WeChatTabBarViewController;
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
